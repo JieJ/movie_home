@@ -119,20 +119,27 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
                         movie_name = movie_name_list[index].encode('utf8')
                         detail_url = movie_url_list[index].encode('utf8')
                         detail_r = requests.get(detail_url)
+
                         director = re.findall('<a.*?rel="v:directedBy">(.*?)</a>', detail_r.content)[0]
                         director = director.replace('&#183;', ' ')
+
+                        starring = re.findall('<a.*?rel="v:starring">(.*?)</a>', detail_r.content)[0]
+                        starring = starring.replace('·', ' ')
+
                         print thread_id, movie_name_list[index], num, director.decode('utf8'), year
                         record_item = {
                             'movie_name': movie_name,
                             'show_year': year,
                             'comment_counts': num,
                             'director': director,
+                            'starring': starring,
                             'url': detail_url
                         }
                         mtime_db.insert_one_record(record_item)
                     else:
                         print thread_id, u"评分人数少于", least_comment_num, u"不再翻页"
                         page_stop_flag = 1
+            sleep(3)
 
 
 def main(year_lst, thread_num, least_comment_num):
@@ -142,7 +149,7 @@ def main(year_lst, thread_num, least_comment_num):
     # q.put('http://www.66ys.tv/xijupian/index.html', 1)
     # q.put('http://www.66ys.tv/aiqingpian/index.html', 1)
     threads = []
-    logger_handle = open('logger3.txt', 'a')
+    logger_handle = open('mtime_logger.txt', 'a')
     for i in range(thread_num):
         t = spider_thread(mtime_spider, ('mtime_crawler'+str(i+1), q, logger_handle, least_comment_num), 'crawler'+str(i+1))
         threads.append(t)
@@ -160,11 +167,10 @@ if __name__ == '__main__':
 
     start = datetime.now()
 
-    year_lst = [2010, 2009, 2008]
-    thread_num = 3
-    least_comment_num = 16000
+    year_lst = range(2014, 2016)
+    thread_num = 10
+    least_comment_num = 1000
     main(year_lst, thread_num, least_comment_num)
-
 
     end = datetime.now()
 
