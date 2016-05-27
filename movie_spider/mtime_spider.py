@@ -7,6 +7,7 @@ import os
 import re
 import json
 import time
+import random
 from datetime import datetime
 
 from Queue import Queue
@@ -37,7 +38,7 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
         'Ajax_CallBackMethod' : 'SearchMovieByCategory',
         'Ajax_CrossDomain' : 1,
         'Ajax_RequestUrl' : 'http://movie.mtime.com/movie/search/section/#',
-        't' : '201651216485391989',
+        't' : '201652322134011210',
         # 'Ajax_CallBackArgument9' : 2000,
         # 'Ajax_CallBackArgument10' : 2000,
         'Ajax_CallBackArgument11' : 0,
@@ -50,6 +51,7 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
         # 'Ajax_CallBackArgument18' : 4,              # page index
         'Ajax_CallBackArgument19' : 0,
     }
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
     page_stop_flag = 0
     empty_time = 0
@@ -68,27 +70,29 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
             continue
 
         print thread_id, "parsing year", year
-        for i in range(1, 10000):
+        i = 1
+        while i < 10000:
             if page_stop_flag == 1:
-                break
+                i = 10001
             data['Ajax_CallBackArgument18'] = i;    # page index
             data['Ajax_CallBackArgument9'] = year
             data['Ajax_CallBackArgument10'] = year
-            # if i > 1:
-            #     data['Ajax_RequestUrl'] = 'http://movie.mtime.com/movie/search/section/#' + '#year=' +str(year)
 
-            r = requests.get(url, params=data)
 
-            replace_str_1 = 'var result_' + data['t'] + ' = '
-            replace_str_2 = ';var searchMovieByCategoryResultObject=result_'+ data['t'] + ';'
+            r = requests.get(url, headers=headers, params=data)
+            content = re.findall('.*?(\{.*\}).*', r.content)[0]
 
-            content = r.content.replace(replace_str_1, '').replace(replace_str_2, '')
+            # replace_str_1 = 'var result_' + data['t'] + ' = '
+            # replace_str_2 = ';var searchMovieByCategoryResultObject=result_'+ data['t'] + ';'
+            # content = r.content.replace(replace_str_1, '').replace(replace_str_2, '')
+
 
             response_json = {}
             try:
                 response_json = json.loads(content)
             except:
                 print "error"
+                continue
 
             # print response_json.keys()
             # print response_json['value']['listHTML']
@@ -102,7 +106,10 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
             # soup.select('div[class="td.pl12.pr20"] p[class="c_666.mt6"]')]
 
             # 改用正则表达式匹配
-            html = response_json['value']['listHTML']
+            html = ''
+            if response_json.has_key('value') and response_json['value'].has_key('listHTML'):
+                html = response_json['value']['listHTML']
+
             lst = re.findall(u'<h3 class=\"normal mt6\"><a.*?href=\"(.*?)\">(.*?)</a>', html)
             movie_url_list, movie_name_list = zip(*lst)
             comment_counts_list = re.findall(u'<p class=\"c_666 mt6\">(\d*?人评分)</p>', html)
@@ -120,11 +127,13 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
                         detail_url = movie_url_list[index].encode('utf8')
                         detail_r = requests.get(detail_url)
 
-                        director = re.findall('<a.*?rel="v:directedBy">(.*?)</a>', detail_r.content)[0]
-                        director = director.replace('&#183;', ' ')
+                        director_lst = re.findall('<a.*?rel="v:directedBy">(.*?)</a>', detail_r.content)
+                        if len(director_lst) > 0:
+                            director = director_lst[0].replace('&#183;', ' ')
 
-                        starring = re.findall('<a.*?rel="v:starring">(.*?)</a>', detail_r.content)[0]
-                        starring = starring.replace('·', ' ')
+                        starring_lst = re.findall('<a.*?rel="v:starring">(.*?)</a>', detail_r.content)
+                        if len(starring_lst) > 0:
+                            starring = starring_lst[0].replace('·', ' ')
 
                         print thread_id, movie_name_list[index], num, director.decode('utf8'), year
                         record_item = {
@@ -139,7 +148,8 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
                     else:
                         print thread_id, u"评分人数少于", least_comment_num, u"不再翻页"
                         page_stop_flag = 1
-            sleep(3)
+            i += 1
+            sleep(2 + random.uniform(0, 2))
 
 
 def main(year_lst, thread_num, least_comment_num):
@@ -167,9 +177,9 @@ if __name__ == '__main__':
 
     start = datetime.now()
 
-    year_lst = range(2014, 2016)
+    year_lst = range(2008, 2016)
     thread_num = 10
-    least_comment_num = 1000
+    least_comment_num = 200
     main(year_lst, thread_num, least_comment_num)
 
     end = datetime.now()
