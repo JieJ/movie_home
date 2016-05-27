@@ -55,10 +55,10 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
 
     page_stop_flag = 0
     empty_time = 0
-    sleep_time = 5
+    sleep_time = 3
     year = 0
     while True:
-        if empty_time > 5 :
+        if empty_time > 10 :
             break
         try:
             year = year_queue.get(0)
@@ -74,6 +74,7 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
         while i < 10000:
             if page_stop_flag == 1:
                 i = 10001
+                continue
             data['Ajax_CallBackArgument18'] = i;    # page index
             data['Ajax_CallBackArgument9'] = year
             data['Ajax_CallBackArgument10'] = year
@@ -109,11 +110,18 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
             html = ''
             if response_json.has_key('value') and response_json['value'].has_key('listHTML'):
                 html = response_json['value']['listHTML']
+            else:
+                logger_handle.write(' '.join(response_json.keys()) + '\n')
 
             lst = re.findall(u'<h3 class=\"normal mt6\"><a.*?href=\"(.*?)\">(.*?)</a>', html)
+            if len(lst) == 0:
+                logger_handle.write(str(year) + '\t' + 'page' + str(i) + 'extract movie_name|url error' + '\n')
+                continue
             movie_url_list, movie_name_list = zip(*lst)
             comment_counts_list = re.findall(u'<p class=\"c_666 mt6\">(\d*?人评分)</p>', html)
 
+            logger_handle.write(str(len(movie_url_list)) + ' ' + str(len(movie_name_list)) + ' ' + \
+                str(len(comment_counts_list)) + '\n')
             # print len(movie_url_list), len(movie_name_list)
             # print len(comment_counts_list)
 
@@ -133,7 +141,7 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
 
                         starring_lst = re.findall('<a.*?rel="v:starring">(.*?)</a>', detail_r.content)
                         if len(starring_lst) > 0:
-                            starring = starring_lst[0].replace('·', ' ')
+                            starring = starring_lst[0].replace('·', ' ').replace('&#183;', ' ')
 
                         print thread_id, movie_name_list[index], num, director.decode('utf8'), year
                         record_item = {
@@ -177,8 +185,8 @@ if __name__ == '__main__':
 
     start = datetime.now()
 
-    year_lst = range(2008, 2016)
-    thread_num = 10
+    year_lst = range(2000, 2002)
+    thread_num = 2
     least_comment_num = 200
     main(year_lst, thread_num, least_comment_num)
 
