@@ -93,6 +93,7 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
                 response_json = json.loads(content)
             except:
                 print "error"
+                i += 1
                 continue
 
             # print response_json.keys()
@@ -111,11 +112,13 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
             if response_json.has_key('value') and response_json['value'].has_key('listHTML'):
                 html = response_json['value']['listHTML']
             else:
-                logger_handle.write(' '.join(response_json.keys()) + '\n')
+                if response_json.has_key('value'):
+                    logger_handle.write(' '.join(response_json['value'].keys()) + '\n')
 
             lst = re.findall(u'<h3 class=\"normal mt6\"><a.*?href=\"(.*?)\">(.*?)</a>', html)
             if len(lst) == 0:
                 logger_handle.write(str(year) + '\t' + 'page' + str(i) + 'extract movie_name|url error' + '\n')
+                i += 1
                 continue
             movie_url_list, movie_name_list = zip(*lst)
             comment_counts_list = re.findall(u'<p class=\"c_666 mt6\">(\d*?人评分)</p>', html)
@@ -157,7 +160,7 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
                         print thread_id, u"评分人数少于", least_comment_num, u"不再翻页"
                         page_stop_flag = 1
             i += 1
-            sleep(2 + random.uniform(0, 2))
+            sleep(4 + random.uniform(0, 2))
 
 
 def main(year_lst, thread_num, least_comment_num):
@@ -185,7 +188,7 @@ if __name__ == '__main__':
 
     start = datetime.now()
 
-    year_lst = range(2000, 2002)
+    year_lst = range(2010, 2012)
     thread_num = 2
     least_comment_num = 200
     main(year_lst, thread_num, least_comment_num)
