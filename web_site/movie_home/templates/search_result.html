@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>电影之家</title>
+</head>
+<body>
+    <table class="table" width="80%">
+        <thead>
+        <tr>
+             <td>movie_name</td>
+             <td>starring</td>
+             <td>director</td>
+             <td>show_year</td>
+             <td>url</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for m in movies %}
+        <tr>
+            <td>{{ m.movie_name }}</td>
+            <td>{{ m.starring }}</td>
+            <td>{{ m.director }}</td>
+            <td>{{ m.show_year }}</td>
+            <td><a href="{{ m.url }}">{{ m.url }}</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>电影之家</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}" />
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <div class="skinBg"></div>
+        <header id="header">
+        <div class="content tc">
+            <p class="logo"><img width="270" height="129" src="{{ url_for('static', filename='images/logo_white.png') }}" alt="logo" /></p>
+            <div class="searchBox">
+                <form action="/search" method="post">
+                    <input type="text" class="searchIpt f14" name="keyword" maxlength="100" autocomplete="off" border="1"/>
+                    <input type="submit" class="btn cp" value="盗版一下" />
+                </form>
+            </div>
+        </div>
+        <footer id="footer" class="tc">©2016 JieJ 盗版网站 盗版必究</footer>
+    </div>
+</body>
+</html>
