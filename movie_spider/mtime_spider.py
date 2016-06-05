@@ -19,17 +19,6 @@ from spider import spider
 from spider_thread import spider_thread
 from spider_db import mtime_db
 
-# css selector info
-# div class = td pl12 pr20
-#     h3 class=normal mt6
-#         a href(url) text(movie_name)
-#     p class = c_666 mt6 text(评分人数)
-
-# div class = clearfix pt15
-#     dl class = info_l
-#         dd class = __r_c_
-#             a text(导演)
-
 def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
     url = 'http://service.channel.mtime.com/service/search.mcs'
     data = {
@@ -38,7 +27,7 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
         'Ajax_CallBackMethod' : 'SearchMovieByCategory',
         'Ajax_CrossDomain' : 1,
         'Ajax_RequestUrl' : 'http://movie.mtime.com/movie/search/section/#',
-        't' : '201652322134011210',
+        't' : '2016611983998309',
         # 'Ajax_CallBackArgument9' : 2000,
         # 'Ajax_CallBackArgument10' : 2000,
         'Ajax_CallBackArgument11' : 0,
@@ -55,10 +44,10 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
 
     page_stop_flag = 0
     empty_time = 0
-    sleep_time = 3
+    sleep_time = 2
     year = 0
     while True:
-        if empty_time > 10 :
+        if empty_time > 5 :
             break
         try:
             year = year_queue.get(0)
@@ -71,14 +60,15 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
 
         print thread_id, "parsing year", year
         i = 1
+        page_stop_flag = 0
         while i < 10000:
+            # 如果停止翻页标志位=1， 跳出翻页循环
             if page_stop_flag == 1:
                 i = 10001
                 continue
             data['Ajax_CallBackArgument18'] = i;    # page index
             data['Ajax_CallBackArgument9'] = year
             data['Ajax_CallBackArgument10'] = year
-
 
             r = requests.get(url, headers=headers, params=data)
             content = re.findall('.*?(\{.*\}).*', r.content)[0]
@@ -87,13 +77,12 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
             # replace_str_2 = ';var searchMovieByCategoryResultObject=result_'+ data['t'] + ';'
             # content = r.content.replace(replace_str_1, '').replace(replace_str_2, '')
 
-
             response_json = {}
             try:
                 response_json = json.loads(content)
             except:
-                print "error"
-                i += 1
+                logger_handle.write("year " + str(year) + " page " + str(i) + "response error" + '\n')
+                i = 10001
                 continue
 
             # print response_json.keys()
@@ -113,18 +102,23 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
                 html = response_json['value']['listHTML']
             else:
                 if response_json.has_key('value'):
-                    logger_handle.write(' '.join(response_json['value'].keys()) + '\n')
+                    logger_handle.write('crawler\'s been detected: ' + \
+                        ' '.join(response_json['value'].keys()) + '\n')
+                    i = 10001
+                    continue
 
             lst = re.findall(u'<h3 class=\"normal mt6\"><a.*?href=\"(.*?)\">(.*?)</a>', html)
             if len(lst) == 0:
-                logger_handle.write(str(year) + '\t' + 'page' + str(i) + 'extract movie_name|url error' + '\n')
+                logger_handle.write("year " + str(year) + ' page ' + str(i) + \
+                    'extract movie_name|url error' + '\n')
                 i += 1
                 continue
+
             movie_url_list, movie_name_list = zip(*lst)
             comment_counts_list = re.findall(u'<p class=\"c_666 mt6\">(\d*?人评分)</p>', html)
 
-            logger_handle.write(str(len(movie_url_list)) + ' ' + str(len(movie_name_list)) + ' ' + \
-                str(len(comment_counts_list)) + '\n')
+            # logger_handle.write(str(len(movie_url_list)) + ' ' + str(len(movie_name_list)) + ' ' + \
+            #     str(len(comment_counts_list)) + '\n')
             # print len(movie_url_list), len(movie_name_list)
             # print len(comment_counts_list)
 
@@ -146,21 +140,50 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
                         if len(starring_lst) > 0:
                             starring = starring_lst[0].replace('·', ' ').replace('&#183;', ' ')
 
+                        # get comments:
+                        comment_list = []
+                        for k in range(1, 11):
+                            comment_url = detail_url + 'reviews/short/new'
+                            if k==1:
+                                comment_url += '.html'
+                            else:
+                                comment_url += '-' + str(k) + '.html'
+                            print comment_url
+                            comment_r = requests.get(comment_url, headers=headers)
+                            comment_html = comment_r.content
+                            # logger_handle.write(comment_html)
+                            comment_patt = '<div tweetid=\"\d{1,10}\".*?class=\"mod_short\">.*?<h3>(.*?)</h3>.*?<span class=\"db_point ml6\">(.*?)</span>'
+                            # comment_patt = '<h3>.*?</h3>'
+                            # score_patt = '<span class=\"db_point ml6\">(.*?)</span>'
+                            # comment_list = re.findall(comment_patt, comment_html)
+                            # score_list = re.findall(score_patt, comment_html)
+                            # print len(comment_list), len(score_list)
+                            # if len(comment_list) == len(score_list):
+                            #     comment_array += zip(comment_list, score_list)
+                            tmp_list = re.findall(comment_patt, comment_html)
+                            if len(tmp_list) != 0:
+                                comment_list += [(x, float(y)) for x,y in tmp_list]
+                            else:
+                                break
+                            sleep(1 + random.uniform(0, 2))
+
                         print thread_id, movie_name_list[index], num, director.decode('utf8'), year
+                        print len(comment_list)
                         record_item = {
                             'movie_name': movie_name,
                             'show_year': year,
                             'comment_counts': num,
                             'director': director,
                             'starring': starring,
-                            'url': detail_url
+                            'url': detail_url,
+                            'comment_list': comment_list,
                         }
                         mtime_db.insert_one_record(record_item)
                     else:
                         print thread_id, u"评分人数少于", least_comment_num, u"不再翻页"
                         page_stop_flag = 1
             i += 1
-            sleep(4 + random.uniform(0, 2))
+            sleep(4 + random.uniform(0, 5))
 
 
 def main(year_lst, thread_num, least_comment_num):
@@ -188,7 +211,7 @@ if __name__ == '__main__':
 
     start = datetime.now()
 
-    year_lst = range(2010, 2012)
+    year_lst = range(2014, 2016)
     thread_num = 2
     least_comment_num = 200
     main(year_lst, thread_num, least_comment_num)

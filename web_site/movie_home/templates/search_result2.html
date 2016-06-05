@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>电影之家</title>
+</head>
+<body>
+    <table class="table" width="80%">
+        <thead>
+        <tr>
+             <td>movie_name</td>
+             <td>download_link</td>
+             <td>url</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for m in movies %}
+        <tr>
+            <td>{{ m.movie_name }}</td>
+            <td><a href="{{ m.download_info[0]['download_link'] }}">{{ m.download_info[0]['download_link'] }}</a></td>
+            <td><a href="{{ m.movie_url }}">{{ m.url }}</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>电影之家</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/test.css') }}" />
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" id="bootstrap-css">
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <!-- // <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script> -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".dropdown-toggle").click(function(){
+                $(".dropdown-menu").slideToggle(800);
+            });
+        });
+    </script>
+
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+            <div class="input-group" id="adv-search">
+                <form action="/search" method="post">
+                <input type="text" class="form-control" placeholder="输入电影名称信息" name="keyword" style="width:85.5%"/>
+                <div class="input-group-btn">
+                    <div class="btn-group" role="group">
+                        <div class="dropdown dropdown-lg">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                            <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                <!-- <form class="form-horizontal" role="form" action="/search" method="post"> -->
+                                <div class="form-horizontal">
+<!--                                   <div class="form-group">
+                                    <label for="filter">Filter by</label>
+                                    <select class="form-control">
+                                        <option value="0" selected>All Snippets</option>
+                                        <option value="1">Featured</option>
+                                        <option value="2">Most popular</option>
+                                        <option value="3">Top rated</option>
+                                        <option value="4">Most commented</option>
+                                    </select>
+                                  </div> -->
+                                  <div class="form-group">
+                                    <label for="contain">主演(最多填写3个)</label><br>
+                                    <!-- <input class="form-control" type="text" /> -->
+                                    <div>
+                                      <input type="text" class="sub-form" name="as_ylo" size="4" maxlength="4"><span style="float:left">&nbsp;&nbsp;&nbsp;—&nbsp;&nbsp;&nbsp;</span>
+                                      <input type="text" class="sub-form" name="as_ylo" size="4" maxlength="4"><span style="float:left">&nbsp;&nbsp;&nbsp;—&nbsp;&nbsp;&nbsp;</span>
+                                      <input type="text" class="sub-form" name="as_ylo" size="4" maxlength="4">
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="contain">导演</label><br>
+
+                                    <input class="sub-form director" type="text" />
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="contain">上映年份</label><br>
+                                    <!-- <input class="form-control" type="text" /> -->
+                                    <div>
+                                      <input type="text" class="sub-form year" name="as_ylo" size="4" maxlength="4"><span style="height:34px;float:left;line-height:34px">年&nbsp;&nbsp;&nbsp;—&nbsp;&nbsp;&nbsp;</span>
+                                      <input type="text" class="sub-form year" name="as_ylo" size="4" maxlength="4"><span style="height:34px;float:left;line-height:34px">年</span>
+                                    </div>
+                                  </div>
+
+<!--                                   <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button> -->
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+  </div>
+</div>
+</body>
+</html>
