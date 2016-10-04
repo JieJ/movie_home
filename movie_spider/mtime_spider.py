@@ -69,9 +69,9 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
         print thread_id, "parsing year", year
         logging.info(str(thread_id) +  " parsing year " + str(year))
         
-        i = 3                   # 页码
+        i = 1                   # 页码
         page_stop_flag = 0
-        while i < 4:
+        while i < 10001:
             # 如果停止翻页标志位=1， 跳出翻页循环
             if page_stop_flag == 1:
                 break
@@ -208,8 +208,9 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
             sleep(6 + random.uniform(0, 5))             # 爬完一页20部电影信息，需要休息足够久
 
 
-def main(year_lst, thread_num, least_comment_num):
+def main(start_year, end_year, thread_num, least_comment_num):
     q = Queue(50)
+    year_lst = range(start_year, end_year+1)
     for item in year_lst:
         q.put(item, 1)
     threads = []
