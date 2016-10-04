@@ -19,7 +19,17 @@ from spider import spider
 from spider_thread import spider_thread
 from spider_db import mtime_db
 
-def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
+import logging  
+logging.basicConfig(level=logging.DEBUG,  
+                    format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',  
+                    datefmt='%a, %d %b %Y %H:%M:%S',  
+                    filename='movie_spider.log',  
+                    filemode='a')
+
+def text_filter(ss):
+    return ss.replace('·', '-').replace('&#183;', '-')
+
+def mtime_spider(thread_id, year_queue, least_comment_num):
     url = 'http://service.channel.mtime.com/service/search.mcs'
     data = {
         'Ajax_CallBack' : 'true',
@@ -27,7 +37,7 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
         'Ajax_CallBackMethod' : 'SearchMovieByCategory',
         'Ajax_CrossDomain' : 1,
         'Ajax_RequestUrl' : 'http://movie.mtime.com/movie/search/section/#',
-        't' : '2016611983998309',
+        't' : '201693014374394791',
         # 'Ajax_CallBackArgument9' : 2000,
         # 'Ajax_CallBackArgument10' : 2000,
         'Ajax_CallBackArgument11' : 0,
@@ -51,22 +61,21 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
             break
         try:
             year = year_queue.get(0)
-            print "\n consumed url from Q size now", year_queue.qsize()
-            print "size now", year_queue.qsize()
         except:
             sleep(sleep_time)
             empty_time += 1
             continue
 
         print thread_id, "parsing year", year
-        i = 1
+        logging.info(str(thread_id) +  " parsing year " + str(year))
+        
+        i = 3                   # 页码
         page_stop_flag = 0
-        while i < 10000:
+        while i < 4:
             # 如果停止翻页标志位=1， 跳出翻页循环
             if page_stop_flag == 1:
-                i = 10001
-                continue
-            data['Ajax_CallBackArgument18'] = i;    # page index
+                break
+            data['Ajax_CallBackArgument18'] = i;    # 设置页码
             data['Ajax_CallBackArgument9'] = year
             data['Ajax_CallBackArgument10'] = year
 
@@ -81,20 +90,8 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
             try:
                 response_json = json.loads(content)
             except:
-                logger_handle.write("year " + str(year) + " page " + str(i) + "response error" + '\n')
-                i = 10001
-                continue
-
-            # print response_json.keys()
-            # print response_json['value']['listHTML']
-
-            # 这里使用dom树进行匹配出现了未知错误，匹配不到内容
-            # soup = BeautifulSoup(response_json['value']['listHTML'], 'lxml') # making soup
-            # movie_namelist, movie_url_list = zip(*[(tag.text, tag['href']) for tag in \
-            # soup.select('div[class="td.pl12.pr20"] h3[class="normal.mt6"] a')])
-            # 当属性名称中含有空格时，需要用"."代替空格
-            # comment_counts_list = [tag.text.replace(u'评分', '') for tag in \
-            # soup.select('div[class="td.pl12.pr20"] p[class="c_666.mt6"]')]
+                logging.warning('载入 '+ str(year) + '年' + str(i) + '页网页内容出错, 忽略该页')
+                break
 
             # 改用正则表达式匹配
             html = ''
@@ -102,45 +99,61 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
                 html = response_json['value']['listHTML']
             else:
                 if response_json.has_key('value'):
-                    logger_handle.write('crawler\'s been detected: ' + \
-                        ' '.join(response_json['value'].keys()) + '\n')
-                    i = 10001
-                    continue
+                    break
 
             lst = re.findall(u'<h3 class=\"normal mt6\"><a.*?href=\"(.*?)\">(.*?)</a>', html)
             if len(lst) == 0:
-                logger_handle.write("year " + str(year) + ' page ' + str(i) + \
-                    'extract movie_name|url error' + '\n')
+                logging.warning('匹配 '+ str(year) + '年' + str(i) + '页电影信息出错, 忽略该页')
                 i += 1
                 continue
 
             movie_url_list, movie_name_list = zip(*lst)
             comment_counts_list = re.findall(u'<p class=\"c_666 mt6\">(\d*?人评分)</p>', html)
-
-            # logger_handle.write(str(len(movie_url_list)) + ' ' + str(len(movie_name_list)) + ' ' + \
-            #     str(len(comment_counts_list)) + '\n')
-            # print len(movie_url_list), len(movie_name_list)
-            # print len(comment_counts_list)
-
+            if not len(movie_url_list) == len(movie_name_list) == len(comment_counts_list):
+                logging.warning(str(year) + '年' + str(i) + '页电影信息数量不匹配, 忽略该页')
+                
             if len(movie_url_list) == len(movie_name_list) == len(comment_counts_list):
                 for index, text in enumerate(comment_counts_list):
-                    if page_stop_flag == 1:
+                    if page_stop_flag == 1 or index > 2:
                         break
-                    num = int(text.replace(u'人评分', ''))
-                    if num >= least_comment_num:
+                    comment_num = int(text.replace(u'人评分', ''))
+                    if comment_num >= least_comment_num:
                         movie_name = movie_name_list[index].encode('utf8')
                         detail_url = movie_url_list[index].encode('utf8')
                         detail_r = requests.get(detail_url)
 
+                        # 剧情信息
+                        plots_url = detail_url + 'plots.html'
+                        plots_html = requests.get(plots_url, headers=headers).content
+                        plots_text = ''
+                        soup = BeautifulSoup(plots_html, 'lxml') # making soup
+                        try:
+                            plots_text = [tag.text for tag in soup.select('div[class="plots_box"] p')][0]
+                        except:
+                            pass
+                        plots_text = plots_text.strip()
+                        
+                        # 导演信息
                         director_lst = re.findall('<a.*?rel="v:directedBy">(.*?)</a>', detail_r.content)
                         if len(director_lst) > 0:
-                            director = director_lst[0].replace('&#183;', ' ')
+                            director = text_filter(director_lst[0])
 
+                        # 领衔主演信息
                         starring_lst = re.findall('<a.*?rel="v:starring">(.*?)</a>', detail_r.content)
                         if len(starring_lst) > 0:
-                            starring = starring_lst[0].replace('·', ' ').replace('&#183;', ' ')
+                            starring = text_filter(starring_lst[0])
+                        
+                        # 主演信息（包括领衔主演）
+                        actor_url = detail_url + 'fullcredits.html'
+                        actor_list = []
+                        html = requests.get(actor_url, headers=headers).content
+                        actor_character_patt = \
+                        '<dd>.*?class=\"actor_tit\".*?<h3>.*?<a.*?>(.*?)</a>.*?class=\"character_tit\">.*?<h3>(.*?)</h3>.*?</dd>'
+                        actor_character_list = re.findall(actor_character_patt, html)
+                        print u"演员表和人物表", len(actor_character_list)
+                        actor_list.extend([(text_filter(x), text_filter(y)) for x, y in actor_character_list[:20]])
 
-                        # get comments:
+                        # 影片评论
                         comment_list = []
                         for k in range(1, 11):
                             comment_url = detail_url + 'reviews/short/new'
@@ -151,32 +164,36 @@ def mtime_spider(thread_id, year_queue, logger_handle, least_comment_num):
                             print comment_url
                             comment_r = requests.get(comment_url, headers=headers)
                             comment_html = comment_r.content
-                            # logger_handle.write(comment_html)
-                            comment_patt = '<div tweetid=\"\d{1,10}\".*?class=\"mod_short\">.*?<h3>(.*?)</h3>.*?<span class=\"db_point ml6\">(.*?)</span>'
-                            # comment_patt = '<h3>.*?</h3>'
-                            # score_patt = '<span class=\"db_point ml6\">(.*?)</span>'
-                            # comment_list = re.findall(comment_patt, comment_html)
-                            # score_list = re.findall(score_patt, comment_html)
-                            # print len(comment_list), len(score_list)
-                            # if len(comment_list) == len(score_list):
-                            #     comment_array += zip(comment_list, score_list)
-                            tmp_list = re.findall(comment_patt, comment_html)
-                            if len(tmp_list) != 0:
-                                comment_list += [(x, float(y)) for x,y in tmp_list]
-                            else:
-                                break
+                            comment_patt = \
+                            '<div tweetid=\"\d{1,10}\".*?class=\"mod_short\">.*?<h3>(.*?)</h3>.*?<span class=\"db_point ml6\">(.*?)</span>'
+                            comment_patt_no_score = \
+                            '<div tweetid=\"\d{1,10}\".*?class=\"mod_short\">.*?<h3>(.*?)</h3>.*?<p class=\"mt6 px12 clearfix\">(.*?)</p>'
+                            tmp_list = re.findall(comment_patt_no_score, comment_html)
+                            
+                            for item in tmp_list:
+                                comment_text = item[0]
+                                lst = re.findall('<span class=\"db_point ml6\">(.*?)</span>', item[1])
+                                if len(lst) == 1:
+                                    comment_score = float(lst[0])
+                                else:
+                                    # print u"此用户没有评分"
+                                    comment_score = -1.0
+                                comment_list.append((comment_text, comment_score))
+                            
                             sleep(1 + random.uniform(0, 2))
 
-                        print thread_id, movie_name_list[index], num, director.decode('utf8'), year
-                        print len(comment_list)
+                        print thread_id, movie_name_list[index], comment_num, director.decode('utf8'), year
+
                         record_item = {
                             'movie_name': movie_name,
                             'show_year': year,
-                            'comment_counts': num,
+                            'comment_counts': comment_num,
+                            'plots_text': plots_text,
                             'director': director,
                             'starring': starring,
                             'url': detail_url,
                             'comment_list': comment_list,
+                            'actor_list': actor_list,
                         }
                         mtime_db.insert_one_record(record_item)
                     else:
@@ -190,12 +207,10 @@ def main(year_lst, thread_num, least_comment_num):
     q = Queue(50)
     for item in year_lst:
         q.put(item, 1)
-    # q.put('http://www.66ys.tv/xijupian/index.html', 1)
-    # q.put('http://www.66ys.tv/aiqingpian/index.html', 1)
     threads = []
-    logger_handle = open('mtime_logger.txt', 'a')
+
     for i in range(thread_num):
-        t = spider_thread(mtime_spider, ('mtime_crawler'+str(i+1), q, logger_handle, least_comment_num), 'crawler'+str(i+1))
+        t = spider_thread(mtime_spider, ('mtime_crawler'+str(i+1), q, least_comment_num), 'crawler'+str(i+1))
         threads.append(t)
 
     for i in range(thread_num):
@@ -204,71 +219,16 @@ def main(year_lst, thread_num, least_comment_num):
     for i in range(thread_num):
         threads[i].join()
 
-    logger_handle.close()
-
 
 if __name__ == '__main__':
 
     start = datetime.now()
 
-    year_lst = range(2014, 2016)
-    thread_num = 2
-    least_comment_num = 200
+    year_lst = range(2016, 2017)
+    thread_num = 1
+    least_comment_num = 500
     main(year_lst, thread_num, least_comment_num)
 
     end = datetime.now()
 
     print u"耗时：", end - start
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # full parameters
-    # url = 'http://service.channel.mtime.com/service/search.mcs'
-    # data = {
-    #     'Ajax_CallBack' : 'true',
-    #     'Ajax_CallBackType' : 'Mtime.Channel.Pages.SearchService',
-    #     'Ajax_CallBackMethod' : 'SearchMovieByCategory',
-    #     'Ajax_CrossDomain' : 1,
-    #     'Ajax_RequestUrl' : 'http://movie.mtime.com/movie/search/section/#year=2000',
-    #     't' : '201651216485391989',
-    #     'Ajax_CallBackArgument0' : '',
-    #     'Ajax_CallBackArgument1' : 0,
-    #     'Ajax_CallBackArgument2' : 0,
-    #     'Ajax_CallBackArgument3' : 0,
-    #     'Ajax_CallBackArgument4' : 0,
-    #     'Ajax_CallBackArgument5' : 0,
-    #     'Ajax_CallBackArgument6' : 0,
-    #     'Ajax_CallBackArgument7' : 0,
-    #     'Ajax_CallBackArgument8' : '',
-    #     'Ajax_CallBackArgument9' : 2000,
-    #     'Ajax_CallBackArgument10' : 2000,
-    #     'Ajax_CallBackArgument11' : 0,
-    #     'Ajax_CallBackArgument12' : 0,
-    #     'Ajax_CallBackArgument13' : 0,
-    #     'Ajax_CallBackArgument14' : 1,
-    #     'Ajax_CallBackArgument15' : 0,
-    #     'Ajax_CallBackArgument16' : 1,
-    #     'Ajax_CallBackArgument17' : 4,
-    #     'Ajax_CallBackArgument18' : 2,
-    #     'Ajax_CallBackArgument19' : 0,
-    # }

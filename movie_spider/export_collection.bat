@@ -1,0 +1,1 @@
+mongoexport --host localhost --port 27017 --db movie_home --collection mtime_director --fields zh_name,en_name,profession,birthday,comment_score,comment_counts --out director.csv --sort {comment_counts:1}
