@@ -90,7 +90,7 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
             try:
                 response_json = json.loads(content)
             except:
-                logging.warning('载入 '+ str(year) + '年' + str(i) + '页网页内容出错, 忽略该页')
+                logging.warning('载入 '+ str(year) + '年' + str(i) + '页网页内容出错, 停止爬取')
                 break
 
             # 改用正则表达式匹配
@@ -99,6 +99,7 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
                 html = response_json['value']['listHTML']
             else:
                 if response_json.has_key('value'):
+                    logging.warning('载入 '+ str(year) + '年' + str(i) + '页网页内容出错, 停止爬取')
                     break
 
             lst = re.findall(u'<h3 class=\"normal mt6\"><a.*?href=\"(.*?)\">(.*?)</a>', html)
@@ -111,10 +112,13 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
             comment_counts_list = re.findall(u'<p class=\"c_666 mt6\">(\d*?人评分)</p>', html)
             if not len(movie_url_list) == len(movie_name_list) == len(comment_counts_list):
                 logging.warning(str(year) + '年' + str(i) + '页电影信息数量不匹配, 忽略该页')
+                i += 1
+                continue
                 
             if len(movie_url_list) == len(movie_name_list) == len(comment_counts_list):
                 for index, text in enumerate(comment_counts_list):
-                    if page_stop_flag == 1 or index > 2:
+                    if page_stop_flag == 1:
+                        logging.info(str(thread_id) + " 评分人数少于 "+str(least_comment_num)+", 不再翻页")
                         break
                     comment_num = int(text.replace(u'人评分', ''))
                     if comment_num >= least_comment_num:
@@ -199,8 +203,9 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
                     else:
                         print thread_id, u"评分人数少于", least_comment_num, u"不再翻页"
                         page_stop_flag = 1
+                    sleep(1 + random.uniform(0, 5))             # 爬完一部电影的全部信息，需要休息一段时间
             i += 1
-            sleep(4 + random.uniform(0, 5))
+            sleep(6 + random.uniform(0, 5))             # 爬完一页20部电影信息，需要休息足够久
 
 
 def main(year_lst, thread_num, least_comment_num):
@@ -221,13 +226,15 @@ def main(year_lst, thread_num, least_comment_num):
 
 
 if __name__ == '__main__':
-
+    
     start = datetime.now()
 
-    year_lst = range(2016, 2017)
-    thread_num = 1
-    least_comment_num = 500
-    main(year_lst, thread_num, least_comment_num)
+    start_year = 2016
+    end_year = 2016
+    mtime_db.collection = mtime_db.db['mtime_movie_'+str(start_year)+'_'+str(end_year)]
+    thread_num = 2
+    least_comment_num = 100
+    main(start_year, end_year, thread_num, least_comment_num)
 
     end = datetime.now()
 
