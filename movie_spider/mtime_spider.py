@@ -153,23 +153,7 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
                     
                     print detail_url
                     detail_r = requests.get(detail_url, headers=headers).content
-
-                    # 剧情信息
-                    print u"正在获取剧情信息..."
-                    plots_url = detail_url + 'plots.html'
-                    print plots_url
-                    plots_html = requests.get(plots_url, headers=headers).content
-                    plots_text = ''
-                    soup = BeautifulSoup(plots_html, 'lxml') # making soup
-                    try:
-                        plots_text_list = [tag.text for tag in soup.select('div[class="plots_box"] p')]
-                        for item in plots_text_list:
-                            item = item.strip()
-                            if item != '':
-                                plots_text = item
-                                break
-                    except:
-                        pass
+                    # soup = BeautifulSoup(detail_r, 'lxml') # making soup
                     
                     # 导演信息
                     print u"正在获取导演信息..."
@@ -195,10 +179,30 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
                     for ele in ele_list[:10]:
                         inner_ele = ele.findChildren('div', recursive=False)
                         if len(inner_ele) == 2:
-                            actor_name = (inner_ele[0].select('h3')[0].text).encode('utf8')
-                            character_name = (inner_ele[1].select('h3')[0].text).encode('utf8')
-                            actor_list.append((text_filter(actor_name), text_filter(character_name)))
+                            try:
+                                actor_name = (inner_ele[0].select('h3')[0].text).encode('utf8')
+                                character_name = (inner_ele[1].select('h3')[0].text).encode('utf8')
+                                actor_list.append((text_filter(actor_name), text_filter(character_name)))
+                            except:
+                                pass
 
+                    # 剧情信息
+                    print u"正在获取剧情信息..."
+                    plots_url = detail_url + 'plots.html'
+                    print plots_url
+                    plots_html = requests.get(plots_url, headers=headers).content
+                    plots_text = ''
+                    soup = BeautifulSoup(plots_html, 'lxml') # making soup
+                    try:
+                        plots_text_list = [tag.text for tag in soup.select('div[class="plots_box"] p')]
+                        for item in plots_text_list:
+                            item = item.strip()
+                            if item != '':
+                                plots_text = item
+                                break
+                    except:
+                        pass
+                    
                     # 影片评论
                     print u"正在获取影片评论信息..."
                     comment_list = []
@@ -271,8 +275,8 @@ if __name__ == '__main__':
     
     start = datetime.now()
 
-    start_year = 2009
-    end_year = 2010
+    start_year = 1995
+    end_year = 2000
     mtime_db.collection = mtime_db.db['mtime_movie_'+str(start_year)+'_'+str(end_year)]
     thread_num = 2
     least_comment_num = 1000
