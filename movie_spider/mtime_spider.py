@@ -23,7 +23,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG,  
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',  
                     datefmt='%a, %d %b %Y %H:%M:%S',  
-                    filename='log\\movie_spider.log',  
+                    filename='movie_spider.log',  
                     filemode='w')
 
 def text_filter(ss):
@@ -190,20 +190,6 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
                     actor_url = detail_url + 'fullcredits.html'
                     actor_list = []
                     actor_html = requests.get(actor_url, headers=headers).content
-                    
-                    # actor_character_patt = \
-                    # '''<dd> *?<div class=\"actor_tit\">[\w\W]*?<h3><a.*?>(.*?)</a>[\w\W]*?<div class=\"character_tit\">[\w\W]*?<h3>([\w\W]*?)</h3>[\w\W]*?</dd>'''
-                    # actor_character_list = re.findall(actor_character_patt, actor_html, timeout=3)
-                    # print u"演员表和人物表", len(actor_character_list)
-                    # actor_list += [(text_filter(x), text_filter(y)) for x, y in actor_character_list[:20]]
-
-                    # try:
-                    #     actor_character_list = re.findall(actor_character_patt, actor_html, timeout=3)
-                    #     print u"演员表和人物表", len(actor_character_list)
-                    #     actor_list += [(text_filter(x), text_filter(y)) for x, y in actor_character_list[:20]]
-                    # except:
-                    #     pass
-
                     soup = BeautifulSoup(actor_html, 'lxml') # making soup
                     ele_list = soup.select('div[class="db_actor"] dd')
                     for ele in ele_list[:10]:
@@ -225,19 +211,14 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
                         print comment_url
                         comment_r = requests.get(comment_url, headers=headers)
                         comment_html = comment_r.content
-                        comment_patt = \
-                        '<div tweetid=\"\d{1,10}\".*?class=\"mod_short\">.*?<h3>(.*?)</h3>.*?<span class=\"db_point ml6\">(.*?)</span>'
-                        comment_patt_no_score = \
-                        '<div tweetid=\"\d{1,10}\".*?class=\"mod_short\">.*?<h3>(.*?)</h3>.*?<p class=\"mt6 px12 clearfix\">(.*?)</p>'
-                        tmp_list = re.findall(comment_patt_no_score, comment_html)
-                        
-                        for item in tmp_list:
-                            comment_text = item[0]
-                            lst = re.findall('<span class=\"db_point ml6\">(.*?)</span>', item[1])
-                            if len(lst) == 1:
-                                comment_score = float(lst[0])
+                        soup = BeautifulSoup(comment_html, 'lxml') # making soup
+                        ele_list = soup.select('dd div[class="mod_short"]')
+                        for ele in ele_list:
+                            comment_text = ele.select('h3')[0].text
+                            comment_score_list = ele.find_all('span', class_="db_point ml6")
+                            if len(comment_score_list) == 1:
+                                comment_score = float(comment_score_list[0].text)
                             else:
-                                # print u"此用户没有评分"
                                 comment_score = -1.0
                             comment_list.append((comment_text, comment_score))
                         
@@ -290,8 +271,8 @@ if __name__ == '__main__':
     
     start = datetime.now()
 
-    start_year = 2013
-    end_year = 2014
+    start_year = 2009
+    end_year = 2010
     mtime_db.collection = mtime_db.db['mtime_movie_'+str(start_year)+'_'+str(end_year)]
     thread_num = 2
     least_comment_num = 1000

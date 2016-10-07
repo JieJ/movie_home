@@ -1,0 +1,170 @@
+Fri, 07 Oct 2016 17:04:40 mtime_spider.py[line:70] INFO mtime_crawler2 parsing year 2010
+Fri, 07 Oct 2016 17:04:40 mtime_spider.py[line:70] INFO mtime_crawler1 parsing year 2009
+Fri, 07 Oct 2016 17:04:40 connectionpool.py[line:207] INFO Starting new HTTP connection (1): service.channel.mtime.com
+Fri, 07 Oct 2016 17:04:40 connectionpool.py[line:207] INFO Starting new HTTP connection (1): service.channel.mtime.com
+Fri, 07 Oct 2016 17:04:40 connectionpool.py[line:387] DEBUG "GET /service/search.mcs?Ajax_CallBackArgument19=0&Ajax_CallBackArgument18=1&Ajax_CallBackArgument15=0&Ajax_CallBackArgument14=1&Ajax_CallBackArgument17=4&Ajax_CallBackArgument16=1&Ajax_RequestUrl=http%3A%2F%2Fmovie.mtime.com%2Fmovie%2Fsearch%2Fsection%2F%23&Ajax_CallBackArgument10=2009&Ajax_CallBackArgument13=0&Ajax_CallBackArgument12=0&Ajax_CallBackArgument9=2009&Ajax_CallBackMethod=SearchMovieByCategory&Ajax_CallBackType=Mtime.Channel.Pages.SearchService&Ajax_CallBack=true&t=201610411553323886&Ajax_CrossDomain=1&Ajax_CallBackArgument11=0 HTTP/1.1" 200 4610
+Fri, 07 Oct 2016 17:04:40 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:40 connectionpool.py[line:387] DEBUG "GET /service/search.mcs?Ajax_CallBackArgument19=0&Ajax_CallBackArgument18=1&Ajax_CallBackArgument15=0&Ajax_CallBackArgument14=1&Ajax_CallBackArgument17=4&Ajax_CallBackArgument16=1&Ajax_RequestUrl=http%3A%2F%2Fmovie.mtime.com%2Fmovie%2Fsearch%2Fsection%2F%23&Ajax_CallBackArgument10=2010&Ajax_CallBackArgument13=0&Ajax_CallBackArgument12=0&Ajax_CallBackArgument9=2010&Ajax_CallBackMethod=SearchMovieByCategory&Ajax_CallBackType=Mtime.Channel.Pages.SearchService&Ajax_CallBack=true&t=201610411553323886&Ajax_CrossDomain=1&Ajax_CallBackArgument11=0 HTTP/1.1" 200 4386
+Fri, 07 Oct 2016 17:04:40 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:41 connectionpool.py[line:387] DEBUG "GET /45997/ HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:04:41 connectionpool.py[line:387] DEBUG "GET /99547/ HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:04:41 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:41 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:41 connectionpool.py[line:387] DEBUG "GET /45997/plots.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:04:41 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:41 connectionpool.py[line:387] DEBUG "GET /99547/plots.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:04:41 connectionpool.py[line:387] DEBUG "GET /45997/fullcredits.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:04:41 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:41 connectionpool.py[line:387] DEBUG "GET /99547/fullcredits.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:04:41 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:41 connectionpool.py[line:387] DEBUG "GET /45997/reviews/short/new.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:04:41 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:41 connectionpool.py[line:387] DEBUG "GET /99547/reviews/short/new.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:04:45 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:45 connectionpool.py[line:387] DEBUG "GET /45997/reviews/short/new-2.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:04:45 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:46 connectionpool.py[line:387] DEBUG "GET /99547/reviews/short/new-2.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:04:48 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:48 connectionpool.py[line:387] DEBUG "GET /45997/reviews/short/new-3.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:04:49 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:49 connectionpool.py[line:387] DEBUG "GET /99547/reviews/short/new-3.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:04:52 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:52 connectionpool.py[line:387] DEBUG "GET /45997/reviews/short/new-4.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:04:54 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:54 connectionpool.py[line:387] DEBUG "GET /99547/reviews/short/new-4.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:04:56 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:56 connectionpool.py[line:387] DEBUG "GET /45997/reviews/short/new-5.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:04:58 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:04:58 connectionpool.py[line:387] DEBUG "GET /99547/reviews/short/new-5.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:00 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:00 connectionpool.py[line:387] DEBUG "GET /45997/reviews/short/new-6.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:01 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:01 connectionpool.py[line:387] DEBUG "GET /99547/reviews/short/new-6.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:04 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:04 connectionpool.py[line:387] DEBUG "GET /45997/reviews/short/new-7.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:05 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:05 connectionpool.py[line:387] DEBUG "GET /99547/reviews/short/new-7.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:08 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:08 connectionpool.py[line:387] DEBUG "GET /45997/reviews/short/new-8.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:09 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:09 connectionpool.py[line:387] DEBUG "GET /99547/reviews/short/new-8.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:12 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:12 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:13 connectionpool.py[line:387] DEBUG "GET /99547/reviews/short/new-9.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:13 connectionpool.py[line:387] DEBUG "GET /45997/reviews/short/new-9.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:21 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:21 connectionpool.py[line:387] DEBUG "GET /45997/reviews/short/new-10.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:21 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:21 connectionpool.py[line:387] DEBUG "GET /99547/reviews/short/new-10.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:27 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:27 connectionpool.py[line:387] DEBUG "GET /69283/ HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:27 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:27 connectionpool.py[line:387] DEBUG "GET /69283/plots.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:27 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:27 connectionpool.py[line:387] DEBUG "GET /69283/fullcredits.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:28 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:28 connectionpool.py[line:387] DEBUG "GET /69283/reviews/short/new.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:31 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:31 connectionpool.py[line:387] DEBUG "GET /69283/reviews/short/new-2.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:31 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:31 connectionpool.py[line:387] DEBUG "GET /106313/ HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:32 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:32 connectionpool.py[line:387] DEBUG "GET /106313/plots.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:32 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:32 connectionpool.py[line:387] DEBUG "GET /106313/fullcredits.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:32 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:32 connectionpool.py[line:387] DEBUG "GET /106313/reviews/short/new.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:35 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:35 connectionpool.py[line:387] DEBUG "GET /69283/reviews/short/new-3.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:36 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:36 connectionpool.py[line:387] DEBUG "GET /106313/reviews/short/new-2.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:39 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:39 connectionpool.py[line:387] DEBUG "GET /69283/reviews/short/new-4.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:40 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:40 connectionpool.py[line:387] DEBUG "GET /106313/reviews/short/new-3.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:43 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:43 connectionpool.py[line:387] DEBUG "GET /69283/reviews/short/new-5.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:44 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:44 connectionpool.py[line:387] DEBUG "GET /106313/reviews/short/new-4.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:46 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:46 connectionpool.py[line:387] DEBUG "GET /69283/reviews/short/new-6.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:47 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:47 connectionpool.py[line:387] DEBUG "GET /106313/reviews/short/new-5.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:50 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:50 connectionpool.py[line:387] DEBUG "GET /69283/reviews/short/new-7.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:51 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:51 connectionpool.py[line:387] DEBUG "GET /106313/reviews/short/new-6.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:54 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:54 connectionpool.py[line:387] DEBUG "GET /69283/reviews/short/new-8.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:54 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:54 connectionpool.py[line:387] DEBUG "GET /106313/reviews/short/new-7.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:57 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:57 connectionpool.py[line:387] DEBUG "GET /69283/reviews/short/new-9.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:05:58 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:05:58 connectionpool.py[line:387] DEBUG "GET /106313/reviews/short/new-8.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:01 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:01 connectionpool.py[line:387] DEBUG "GET /69283/reviews/short/new-10.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:01 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:01 connectionpool.py[line:387] DEBUG "GET /106313/reviews/short/new-9.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:05 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:05 connectionpool.py[line:387] DEBUG "GET /106313/reviews/short/new-10.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:10 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:10 connectionpool.py[line:387] DEBUG "GET /80706/ HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:10 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:10 connectionpool.py[line:387] DEBUG "GET /80706/plots.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:10 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:10 connectionpool.py[line:387] DEBUG "GET /80706/fullcredits.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:10 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:11 connectionpool.py[line:387] DEBUG "GET /80706/reviews/short/new.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:12 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:12 connectionpool.py[line:387] DEBUG "GET /83327/ HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:13 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:13 connectionpool.py[line:387] DEBUG "GET /83327/plots.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:13 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:13 connectionpool.py[line:387] DEBUG "GET /83327/fullcredits.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:13 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:13 connectionpool.py[line:387] DEBUG "GET /83327/reviews/short/new.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:15 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:15 connectionpool.py[line:387] DEBUG "GET /80706/reviews/short/new-2.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:17 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:17 connectionpool.py[line:387] DEBUG "GET /83327/reviews/short/new-2.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:19 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:19 connectionpool.py[line:387] DEBUG "GET /80706/reviews/short/new-3.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:21 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:21 connectionpool.py[line:387] DEBUG "GET /83327/reviews/short/new-3.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:22 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:23 connectionpool.py[line:387] DEBUG "GET /80706/reviews/short/new-4.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:24 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:24 connectionpool.py[line:387] DEBUG "GET /83327/reviews/short/new-4.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:27 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:27 connectionpool.py[line:387] DEBUG "GET /80706/reviews/short/new-5.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:28 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:28 connectionpool.py[line:387] DEBUG "GET /83327/reviews/short/new-5.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:31 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:31 connectionpool.py[line:387] DEBUG "GET /80706/reviews/short/new-6.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:31 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:31 connectionpool.py[line:387] DEBUG "GET /83327/reviews/short/new-6.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:34 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:34 connectionpool.py[line:387] DEBUG "GET /80706/reviews/short/new-7.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:35 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:35 connectionpool.py[line:387] DEBUG "GET /83327/reviews/short/new-7.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:38 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:38 connectionpool.py[line:387] DEBUG "GET /80706/reviews/short/new-8.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:39 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:39 connectionpool.py[line:387] DEBUG "GET /83327/reviews/short/new-8.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:42 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:42 connectionpool.py[line:387] DEBUG "GET /80706/reviews/short/new-9.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:43 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:43 connectionpool.py[line:387] DEBUG "GET /83327/reviews/short/new-9.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:46 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:46 connectionpool.py[line:387] DEBUG "GET /80706/reviews/short/new-10.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:47 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:47 connectionpool.py[line:387] DEBUG "GET /83327/reviews/short/new-10.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:54 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:54 connectionpool.py[line:387] DEBUG "GET /46017/ HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:54 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:54 connectionpool.py[line:387] DEBUG "GET /46017/plots.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:54 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:54 connectionpool.py[line:387] DEBUG "GET /46017/fullcredits.html HTTP/1.1" 200 None
+Fri, 07 Oct 2016 17:06:54 connectionpool.py[line:207] INFO Starting new HTTP connection (1): movie.mtime.com
+Fri, 07 Oct 2016 17:06:54 connectionpool.py[line:387] DEBUG "GET /46017/reviews/short/new.html HTTP/1.1" 200 None
