@@ -1,0 +1,48 @@
+Thu, 06 Oct 2016 16:32:59 mtime_people_spider.py[line:75] INFO mtime_crawler2 parsing page 11
+Thu, 06 Oct 2016 16:32:59 mtime_people_spider.py[line:75] INFO mtime_crawler1 parsing page 12
+Thu, 06 Oct 2016 16:32:59 connectionpool.py[line:207] INFO Starting new HTTP connection (1): service.channel.mtime.com
+Thu, 06 Oct 2016 16:32:59 connectionpool.py[line:207] INFO Starting new HTTP connection (1): service.channel.mtime.com
+Thu, 06 Oct 2016 16:33:00 connectionpool.py[line:387] DEBUG "GET /service/search.mcs?Ajax_CallBackArgument9=0&Ajax_CallBackArgument8=0&Ajax_CallBackArgument6=0&Ajax_CallBackMethod=SearchPersonByCategory&Ajax_CallBackType=Mtime.Channel.Pages.SearchService&Ajax_CallBackArgument3=100&Ajax_CallBackArgument2=0&Ajax_CallBackArgument5=0&Ajax_CallBack=true&Ajax_CallBackArgument7=0&Ajax_CallBackArgument4=2&Ajax_CallBackArgument1=0&t=20161021626424256&Ajax_CallBackArgument13=0&Ajax_CrossDomain=1&Ajax_RequestUrl=http%3A%2F%2Fmovie.mtime.com%2Fpeople%2Fsearch%2Fsection%2F%23&Ajax_CallBackArgument10=0&Ajax_CallBackArgument11=4&Ajax_CallBackArgument12=12 HTTP/1.1" 200 3215
+Thu, 06 Oct 2016 16:33:00 connectionpool.py[line:387] DEBUG "GET /service/search.mcs?Ajax_CallBackArgument9=0&Ajax_CallBackArgument8=0&Ajax_CallBackArgument6=0&Ajax_CallBackMethod=SearchPersonByCategory&Ajax_CallBackType=Mtime.Channel.Pages.SearchService&Ajax_CallBackArgument3=100&Ajax_CallBackArgument2=0&Ajax_CallBackArgument5=0&Ajax_CallBack=true&Ajax_CallBackArgument7=0&Ajax_CallBackArgument4=2&Ajax_CallBackArgument1=0&t=20161021626424256&Ajax_CallBackArgument13=0&Ajax_CrossDomain=1&Ajax_RequestUrl=http%3A%2F%2Fmovie.mtime.com%2Fpeople%2Fsearch%2Fsection%2F%23&Ajax_CallBackArgument10=0&Ajax_CallBackArgument11=4&Ajax_CallBackArgument12=11 HTTP/1.1" 200 3074
+Thu, 06 Oct 2016 16:33:01 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:01 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:01 connectionpool.py[line:387] DEBUG "GET /969488/ HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:01 connectionpool.py[line:387] DEBUG "GET /892942/ HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:01 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:01 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:01 connectionpool.py[line:387] DEBUG "GET /969488/details.html HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:01 connectionpool.py[line:387] DEBUG "GET /892942/details.html HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:01 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:01 connectionpool.py[line:387] DEBUG "GET /899317/ HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:02 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:02 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:02 connectionpool.py[line:387] DEBUG "GET /897917/ HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:02 connectionpool.py[line:387] DEBUG "GET /899317/details.html HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:02 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:02 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:02 connectionpool.py[line:387] DEBUG "GET /918182/ HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:02 connectionpool.py[line:387] DEBUG "GET /897917/details.html HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:02 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:02 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:02 connectionpool.py[line:387] DEBUG "GET /928505/ HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:02 connectionpool.py[line:387] DEBUG "GET /918182/details.html HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:02 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:02 connectionpool.py[line:387] DEBUG "GET /904478/ HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:02 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:03 connectionpool.py[line:387] DEBUG "GET /928505/details.html HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:03 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:03 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:03 connectionpool.py[line:387] DEBUG "GET /1186807/ HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:03 connectionpool.py[line:387] DEBUG "GET /904478/details.html HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:03 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:03 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:03 connectionpool.py[line:387] DEBUG "GET /1186807/details.html HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:03 connectionpool.py[line:387] DEBUG "GET /898211/ HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:03 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:03 connectionpool.py[line:387] DEBUG "GET /892835/ HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:03 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:03 connectionpool.py[line:387] DEBUG "GET /898211/details.html HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:03 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:04 connectionpool.py[line:207] INFO Starting new HTTP connection (1): people.mtime.com
+Thu, 06 Oct 2016 16:33:04 connectionpool.py[line:387] DEBUG "GET /892835/details.html HTTP/1.1" 200 None
+Thu, 06 Oct 2016 16:33:04 connectionpool.py[line:387] DEBUG "GET /905703/ HTTP/1.1" 200 None
