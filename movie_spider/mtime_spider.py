@@ -71,7 +71,7 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
         
         i = 1                   # 页码
         page_stop_flag = 0
-        while i < 10001:
+        while i < 2:
             # 如果停止翻页标志位=1， 跳出翻页循环
             if page_stop_flag == 1:
                 logging.info(str(thread_id) + " 评分人数少于 "+str(least_comment_num)+", 不再翻页\n")
@@ -94,7 +94,6 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
                 logging.warning('载入 '+ str(year) + '年' + str(i) + '页网页内容出错, 停止爬取\n')
                 i += 1
                 continue
-                # break
 
             # 改用正则表达式匹配
             html = ''
@@ -105,7 +104,6 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
                     logging.warning('载入 '+ str(year) + '年' + str(i) + '页网页内容出错, 停止爬取\n')
                     i += 1
                     continue
-                    # break
 
             lst = re.findall(u'<h3 class=\"normal mt6\"><a.*?href=\"(.*?)\">(.*?)</a>', html)
             if len(lst) == 0:
@@ -115,14 +113,18 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
 
             movie_url_list, movie_name_list = zip(*lst)
             comment_counts_list = re.findall(u'<p class=\"c_666 mt6\">(\d*?人评分)</p>', html)
-            if not len(movie_url_list) == len(movie_name_list) == len(comment_counts_list):
+
+            soup = BeautifulSoup(html, 'lxml') # making soup
+            movie_score_lst = soup.find_all('p', class_="point ml6")
+
+            if not len(movie_url_list) == len(movie_name_list) == len(comment_counts_list) == len(movie_score_lst):
                 logging.warning(str(year) + '年' + str(i) + '页电影信息数量不匹配, 忽略该页\n')
                 i += 1
                 continue
             
-            print len(movie_url_list), len(movie_name_list), len(comment_counts_list)
+            print len(movie_url_list), len(movie_name_list), len(comment_counts_list), len(movie_score_lst)
 
-            if len(movie_url_list) == len(movie_name_list) == len(comment_counts_list):
+            if len(movie_url_list) == len(movie_name_list) == len(comment_counts_list) == len(movie_score_lst):
                 for index, text in enumerate(comment_counts_list):
                     if page_stop_flag == 1:
                         break
@@ -133,8 +135,16 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
                         continue
                     
                     movie_name = movie_name_list[index].encode('utf8')
+                    movie_score_text = ''
+                    for item in movie_score_lst[index].select('span'):
+                        movie_score_text += item.text
+                    movie_score = -1.0
+                    try:
+                        movie_score = float(movie_score_text)
+                    except:
+                        pass
+
                     detail_url = movie_url_list[index].encode('utf8')
-                    
                     movie_id = detail_url.replace('http://movie.mtime.com', '').strip('/')
                     update_filter = {
                         'movie_id': movie_id,
@@ -153,7 +163,13 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
                     
                     print detail_url
                     detail_r = requests.get(detail_url, headers=headers).content
-                    # soup = BeautifulSoup(detail_r, 'lxml') # making soup
+                    
+                    # 评分信息
+                    print u"正在获取评分信息..."
+                    director_lst = re.findall('<b>.*?rel="v:directedBy">(.*?)</a>', detail_r)
+                    director = ''
+                    if len(director_lst) > 0:
+                        director = text_filter(director_lst[0])
                     
                     # 导演信息
                     print u"正在获取导演信息..."
@@ -180,8 +196,8 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
                         inner_ele = ele.findChildren('div', recursive=False)
                         if len(inner_ele) == 2:
                             try:
-                                actor_name = (inner_ele[0].select('h3')[0].text).encode('utf8')
-                                character_name = (inner_ele[1].select('h3')[0].text).encode('utf8')
+                                actor_name = (inner_ele[0].select_one('h3').text).encode('utf8')
+                                character_name = (inner_ele[1].select_one('h3').text).encode('utf8')
                                 actor_list.append((text_filter(actor_name), text_filter(character_name)))
                             except:
                                 pass
@@ -203,8 +219,60 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
                     except:
                         pass
                     
+
                     # 影片评论
-                    print u"正在获取影片评论信息..."
+                    print u"正在获取影片长评论..."
+                    long_comment_list = []
+                    for k in range(1, 21):
+                        long_comment_url = detail_url + 'comment'
+                        if k==1:
+                            long_comment_url += '.html'
+                        else:
+                            long_comment_url += '-' + str(k) + '.html'
+                        
+                        comment_html = ''
+                        try:
+                            comment_html = requests.get(long_comment_url, headers=headers).content
+                        except:
+                            continue
+                        
+                        if comment_html != '':
+                            soup = BeautifulSoup(comment_html, 'lxml')
+                            ele_list = soup.select('div[id="reviewRegion"] dl')
+                            if len(ele_list) == 0:
+                                break
+                            for ele in ele_list:
+                                inner_ele = ele.findChildren('dd', recursive=False)
+                                if len(inner_ele) == 2:
+                                    comment_title = (inner_ele[0].select_one('div h3').text).encode('utf8')
+                                    text_href = (inner_ele[0].select_one('div h3 a')['href']).encode('utf8')
+                                    comment_score = inner_ele[1].find('span', class_='db_point ml12')
+                                    if comment_score is not None:
+                                        comment_score = float(comment_score.text)
+                                    else:
+                                        comment_score = -1.0
+                                    comment_text_html = requests.get(text_href).content
+                                    sub_soup = BeautifulSoup(comment_text_html, 'lxml')
+                                    out_div = sub_soup.find('div', class_="db_mediacont db_commentcont")
+                                    if out_div is not None:
+                                        comment_text = ''
+                                        text_paragraphs = out_div.find_all('p')
+                                        for tag in text_paragraphs:
+                                            paragraph = tag.text.encode('utf8', 'ignore').replace(' ', '')
+                                            if paragraph != '':
+                                                comment_text += tag.text.encode('utf8', 'ignore') + ' || '
+                                        comment_text = re.sub(' {2,}', ' ', comment_text) 
+                                        comment_text =comment_text.replace('&nbsp;', '').strip().strip('||').strip()
+                                        try:
+                                            print comment_title.decode('utf8'), comment_score
+                                        except:
+                                            pass
+                                        long_comment_list.append( (comment_title, comment_text, comment_score))
+                            if len(ele_list) > 0:
+                                sleep(3 + random.uniform(0, 1))
+                    
+                    
+                    print u"正在获取影片短评论..."
                     comment_list = []
                     for k in range(1, 11):
                         comment_url = detail_url + 'reviews/short/new'
@@ -218,7 +286,7 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
                         soup = BeautifulSoup(comment_html, 'lxml') # making soup
                         ele_list = soup.select('dd div[class="mod_short"]')
                         for ele in ele_list:
-                            comment_text = ele.select('h3')[0].text
+                            comment_text = ele.select_one('h3').text
                             comment_score_list = ele.find_all('span', class_="db_point ml6")
                             if len(comment_score_list) == 1:
                                 comment_score = float(comment_score_list[0].text)
@@ -229,13 +297,14 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
                         sleep(3 + random.uniform(0, 1))
                     
                     try:
-                        print thread_id, movie_name.decode('utf8'), comment_num, director.decode('utf8'), year
+                        print thread_id, movie_name.decode('utf8'), comment_num, director.decode('utf8'), year, movie_score
                     except:
                         pass
                     
                     record_item = {
                         'movie_id': movie_id,
                         'movie_name': movie_name,
+                        'movie_score': movie_score,
                         'show_year': year,
                         'comment_counts': comment_num,
                         'plots_text': plots_text,
@@ -243,6 +312,7 @@ def mtime_spider(thread_id, year_queue, least_comment_num):
                         'starring': starring,
                         'url': detail_url,
                         'comment_list': comment_list,
+                        'long_comment_list': long_comment_list,
                         'actor_list': actor_list,
                     }
                     mtime_db.insert_one_record(record_item)
@@ -275,10 +345,10 @@ if __name__ == '__main__':
     
     start = datetime.now()
 
-    start_year = 1995
-    end_year = 2000
+    start_year = 2002
+    end_year = 2002
     mtime_db.collection = mtime_db.db['mtime_movie_'+str(start_year)+'_'+str(end_year)]
-    thread_num = 2
+    thread_num = 1
     least_comment_num = 1000
     main(start_year, end_year, thread_num, least_comment_num)
 
